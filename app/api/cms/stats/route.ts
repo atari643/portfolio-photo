@@ -107,7 +107,7 @@ export async function GET() {
       monthlyStats.push({
         month: date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' }),
         uploads: monthUploads,
-        views: Math.floor(Math.random() * 1000) // Simulé pour l'exemple
+        views: 0 // Vues réelles à implémenter si nécessaire
       })
     }
 

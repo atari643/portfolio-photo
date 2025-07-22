@@ -8,8 +8,7 @@ import {
   Layout, 
   Brush, 
   Eye, 
-  Save, 
-  RotateCcw,
+  Save,
   Monitor,
   Smartphone,
   Tablet
@@ -154,22 +153,13 @@ export function VisualCustomizer() {
           </h3>
           <div className="flex items-center space-x-2">
             {hasChanges && (
-              <>
-                <button
-                  onClick={resetChanges}
-                  className="flex items-center space-x-1 px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
-                >
-                  <RotateCcw className="h-4 w-4" />
-                  <span>Annuler</span>
-                </button>
-                <button
-                  onClick={saveChanges}
-                  className="flex items-center space-x-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  <Save className="h-4 w-4" />
-                  <span>Sauvegarder</span>
-                </button>
-              </>
+              <button
+                onClick={saveChanges}
+                className="flex items-center space-x-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Save className="h-4 w-4" />
+                <span>Sauvegarder</span>
+              </button>
             )}
           </div>
         </div>

@@ -33,110 +33,39 @@ export function CMSDashboard() {
   const { stats, loading } = useStats()
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'year'>('month')
 
-  // Données factices pour la démo
+  // Cartes de statistiques basées sur les vraies données
   const statsCards: StatCard[] = [
     {
       title: 'Photos totales',
-      value: stats?.totalPhotos || 247,
-      change: +12,
+      value: stats?.totalPhotos || 0,
+      change: 0,
       icon: Camera,
       color: 'blue',
       description: 'Photos dans votre collection'
     },
     {
       title: 'Galeries actives',
-      value: stats?.totalGalleries || 12,
-      change: +2,
+      value: stats?.totalGalleries || 0,
+      change: 0,
       icon: Layout,
       color: 'green',
       description: 'Galeries publiées'
     },
     {
-      title: 'Vues ce mois',
-      value: stats?.monthlyViews || '4.2K',
-      change: +18,
+      title: 'Vues totales',
+      value: stats?.totalViews || 0,
+      change: 0,
       icon: Eye,
       color: 'purple',
-      description: 'Visiteurs uniques'
+      description: 'Vues de vos photos'
     },
     {
-      title: 'J\'aime reçus',
-      value: stats?.totalLikes || 892,
-      change: +24,
-      icon: Heart,
-      color: 'red',
-      description: 'Réactions positives'
-    },
-    {
-      title: 'Taux d\'engagement',
-      value: '8.4%',
-      change: +3.2,
+      title: 'Catégories',
+      value: stats?.totalCategories || 0,
+      change: 0,
       icon: TrendingUp,
       color: 'orange',
-      description: 'Interactions / vues'
-    },
-    {
-      title: 'Nouveaux followers',
-      value: 156,
-      change: +28,
-      icon: Users,
-      color: 'indigo',
-      description: 'Ce mois-ci'
-    }
-  ]
-
-  const recentActivity = [
-    {
-      type: 'upload',
-      message: 'Nouvelle photo ajoutée à "Mariage Sarah & Tom"',
-      time: '2 minutes',
-      icon: Upload,
-      color: 'green'
-    },
-    {
-      type: 'gallery',
-      message: 'Galerie "Portraits Automne" mise à jour',
-      time: '1 heure',
-      icon: Layout,
-      color: 'blue'
-    },
-    {
-      type: 'view',
-      message: '23 nouvelles vues sur votre portfolio',
-      time: '3 heures',
-      icon: Eye,
-      color: 'purple'
-    },
-    {
-      type: 'like',
-      message: '5 nouveaux j\'aime sur vos photos',
-      time: '4 heures',
-      icon: Heart,
-      color: 'red'
-    }
-  ]
-
-  const popularPhotos = [
-    {
-      id: '1',
-      title: 'Portrait coucher de soleil',
-      views: 234,
-      likes: 45,
-      thumbnail: '/api/placeholder/400/300'
-    },
-    {
-      id: '2',
-      title: 'Architecture moderne',
-      views: 189,
-      likes: 38,
-      thumbnail: '/api/placeholder/400/300'
-    },
-    {
-      id: '3',
-      title: 'Nature sauvage',
-      views: 156,
-      likes: 31,
-      thumbnail: '/api/placeholder/400/300'
+      description: 'Catégories organisées'
     }
   ]
 
@@ -205,35 +134,38 @@ export function CMSDashboard() {
       </div>
 
       <div className="grid grid-cols-12 gap-8">
-        {/* Activité récente */}
+        {/* Répartition par catégories */}
         <div className="col-span-12 lg:col-span-8">
           <div className="bg-white rounded-xl border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-slate-900">Activité récente</h3>
-              <button className="text-sm text-blue-600 hover:text-blue-700">
-                Voir tout
-              </button>
+              <h3 className="text-xl font-bold text-slate-900">Répartition par catégories</h3>
+              <BarChart3 className="h-5 w-5 text-blue-600" />
             </div>
             
-            <div className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center space-x-4 p-3 rounded-lg hover:bg-slate-50 transition-colors"
-                >
-                  <div className={`w-10 h-10 bg-${activity.color}-100 rounded-full flex items-center justify-center`}>
-                    <activity.icon className={`h-5 w-5 text-${activity.color}-600`} />
+            {stats?.categoryBreakdown && stats.categoryBreakdown.length > 0 ? (
+              <div className="space-y-4">
+                {stats.categoryBreakdown.map((category: any, index: number) => (
+                  <div key={category.category} className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-slate-700">{category.category}</span>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-32 bg-slate-200 rounded-full h-2">
+                        <div 
+                          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${category.percentage}%` }}
+                        />
+                      </div>
+                      <span className="text-sm text-slate-500 w-8">{category.count}</span>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-slate-900">{activity.message}</p>
-                    <p className="text-xs text-slate-500">Il y a {activity.time}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-slate-500">
+                <BarChart3 className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                <p>Aucune donnée de catégorie disponible</p>
+                <p className="text-sm">Ajoutez des photos pour voir les statistiques</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -245,36 +177,38 @@ export function CMSDashboard() {
               <Star className="h-5 w-5 text-yellow-500" />
             </div>
             
-            <div className="space-y-4">
-              {popularPhotos.map((photo, index) => (
-                <motion.div
-                  key={photo.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-50 transition-colors"
-                >
-                  <img
-                    src={photo.thumbnail}
-                    alt={photo.title}
-                    className="w-12 h-12 object-cover rounded-lg"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-900 truncate">{photo.title}</p>
-                    <div className="flex items-center space-x-3 text-xs text-slate-500">
-                      <span className="flex items-center space-x-1">
-                        <Eye className="h-3 w-3" />
-                        <span>{photo.views}</span>
-                      </span>
-                      <span className="flex items-center space-x-1">
-                        <Heart className="h-3 w-3" />
-                        <span>{photo.likes}</span>
-                      </span>
+            {stats?.popularPhotos && stats.popularPhotos.length > 0 ? (
+              <div className="space-y-4">
+                {stats.popularPhotos.map((photo: any, index: number) => (
+                  <motion.div
+                    key={photo.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-50 transition-colors"
+                  >
+                    <div className="w-12 h-12 bg-slate-200 rounded-lg flex items-center justify-center">
+                      <Camera className="h-6 w-6 text-slate-400" />
                     </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-900 truncate">{photo.title}</p>
+                      <div className="flex items-center space-x-3 text-xs text-slate-500">
+                        <span className="flex items-center space-x-1">
+                          <Eye className="h-3 w-3" />
+                          <span>{photo.views}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-slate-500">
+                <Star className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                <p>Aucune photo populaire</p>
+                <p className="text-sm">Les photos avec le plus de vues apparaîtront ici</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
