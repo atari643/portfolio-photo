@@ -136,11 +136,6 @@ export function VisualCustomizer() {
     }
   }
 
-  const resetChanges = () => {
-    setLocalSettings(settings)
-    setHasChanges(false)
-  }
-
   const tabs = [
     { id: 'colors', label: 'Couleurs', icon: Palette },
     { id: 'typography', label: 'Typographie', icon: Type },

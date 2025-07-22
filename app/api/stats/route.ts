@@ -2,65 +2,35 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    // Statistiques de démonstration
+    // Statistiques réelles à connecter à votre base de données
     const stats = {
       photos: {
-        total: 45,
-        thisWeek: 8,
-        thisMonth: 23,
-        trending: [
-          { name: 'Portraits', count: 18 },
-          { name: 'Paysages', count: 15 },
-          { name: 'Événements', count: 12 }
-        ]
+        total: 0,
+        thisWeek: 0,
+        thisMonth: 0,
+        trending: []
       },
       galleries: {
-        total: 12,
-        published: 8,
-        draft: 4,
-        recent: [
-          { id: '1', title: 'Portraits Studio', views: 234 },
-          { id: '2', title: 'Mariage Sarah & Tom', views: 189 },
-          { id: '3', title: 'Paysages Automne', views: 156 }
-        ]
+        total: 0,
+        published: 0,
+        draft: 0,
+        recent: []
       },
       traffic: {
-        totalViews: 2847,
-        uniqueVisitors: 1654,
-        thisWeek: 423,
-        topPages: [
-          { page: '/galerie', views: 890 },
-          { page: '/blog', views: 567 },
-          { page: '/contact', views: 432 }
-        ]
+        totalViews: 0,
+        uniqueVisitors: 0,
+        thisWeek: 0,
+        topPages: []
       },
       performance: {
-        loadTime: 1.2,
-        seoScore: 95,
-        mobileScore: 88,
-        accessibility: 92
+        loadTime: 0,
+        seoScore: 0,
+        mobileScore: 0,
+        accessibility: 0
       },
       recent: {
-        uploads: [
-          {
-            id: '1',
-            name: 'Portrait_Studio_01.jpg',
-            uploadedAt: new Date(Date.now() - 3600000).toISOString()
-          },
-          {
-            id: '2', 
-            name: 'Paysage_Montagne_02.jpg',
-            uploadedAt: new Date(Date.now() - 7200000).toISOString()
-          }
-        ],
-        comments: [
-          {
-            id: '1',
-            author: 'Marie L.',
-            text: 'Magnifiques photos !',
-            createdAt: new Date(Date.now() - 1800000).toISOString()
-          }
-        ]
+        uploads: [],
+        comments: []
       }
     }
 

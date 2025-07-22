@@ -140,17 +140,10 @@ export function useFormAutoSave<T>(
     setData(prev => ({ ...prev, ...updates }))
   }
 
-  const resetData = () => {
-    setData(initialData)
-    setIsDirty(false)
-    autoSave.markClean()
-  }
-
   return {
     data,
     isDirty,
     updateData,
-    resetData,
     saveNow: autoSave.saveNow,
     isSaving: autoSave.isSaving,
     lastSaved: autoSave.lastSaved

@@ -13,28 +13,8 @@ interface Photo {
   description: string
 }
 
-// Exemple de données (à remplacer par un vrai CMS)
-const initialPhotos: Photo[] = [
-  {
-    id: '1',
-    src: '/api/placeholder/400/600',
-    alt: 'Portrait couple',
-    category: 'Mariage',
-    title: 'Sarah & Thomas',
-    description: 'Un amour rayonnant sous la lumière dorée'
-  },
-  {
-    id: '2',
-    src: '/api/placeholder/600/400',
-    alt: 'Paysage montagne',
-    category: 'Nature',
-    title: 'Alpes Françaises',
-    description: 'Quand la terre touche le ciel'
-  }
-]
-
 export default function AdminPage() {
-  const [photos, setPhotos] = useState<Photo[]>(initialPhotos)
+  const [photos, setPhotos] = useState<Photo[]>([])
   const [selectedCategory, setSelectedCategory] = useState('Toutes')
   const [isUploading, setIsUploading] = useState(false)
 
