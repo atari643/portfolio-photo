@@ -95,7 +95,7 @@ export function ServicesSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold mb-6">
-            <span className="gradient-rainbow bg-clip-text text-transparent">
+            <span className="gradient-text-rainbow">
               Services
             </span>
           </h2>
@@ -189,7 +189,7 @@ export function ServicesSection() {
                 <div className="border-t border-neutral-200 dark:border-neutral-700 pt-6">
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <div className="text-2xl font-bold gradient-rainbow bg-clip-text text-transparent">
+                      <div className="text-2xl font-bold gradient-text-rainbow">
                         {service.price}
                       </div>
                     </div>

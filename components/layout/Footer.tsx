@@ -229,6 +229,14 @@ export function Footer() {
                 >
                   CGV
                 </motion.a>
+                <motion.a
+                  href="/cms-studio"
+                  className="hover:text-white transition-colors duration-200 opacity-50 hover:opacity-100"
+                  whileHover={{ y: -1 }}
+                  title="Accès CMS"
+                >
+                  ⚙️
+                </motion.a>
               </motion.div>
             </div>
           </div>

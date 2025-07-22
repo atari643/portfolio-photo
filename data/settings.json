@@ -1,0 +1,43 @@
+{
+  "id": "main-settings",
+  "siteName": "Portfolio Photographe",
+  "tagline": "Capturer les moments précieux",
+  "description": "Portfolio professionnel de photographie spécialisé dans les mariages, portraits et nature.",
+  "primaryColor": "#6366F1",
+  "secondaryColor": "#8B5CF6",
+  "accentColor": "#EC4899",
+  "fontFamily": "Inter",
+  "socialLinks": {
+    "instagram": "",
+    "facebook": "",
+    "twitter": "",
+    "linkedin": "",
+    "pinterest": ""
+  },
+  "contactInfo": {
+    "email": "contact@photographe.com",
+    "phone": "",
+    "address": "",
+    "city": "",
+    "country": "France"
+  },
+  "seoSettings": {
+    "metaTitle": "Portfolio Photographe Professionnel",
+    "metaDescription": "Découvrez le portfolio d'une photographe professionnelle spécialisée dans les mariages, portraits et photographie artistique.",
+    "keywords": [
+      "photographe",
+      "mariage",
+      "portrait",
+      "photographie",
+      "professionnel"
+    ],
+    "ogImage": ""
+  },
+  "gallerySettings": {
+    "itemsPerPage": 12,
+    "showMetadata": true,
+    "enableLightbox": true,
+    "enableDownload": false
+  },
+  "updatedAt": "2025-07-22T09:04:16.038Z"
+}

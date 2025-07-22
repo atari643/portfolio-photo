@@ -2,22 +2,24 @@
 
 import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Camera, Menu, X, Sun, Moon, Home, User, Image, Briefcase, Mail } from 'lucide-react'
+import { Camera, Menu, X, Sun, Moon, Home, User, Image, Mail } from 'lucide-react'
 
 const navigationItems = [
   { name: 'Accueil', href: '#home', icon: Home },
   { name: 'À propos', href: '#about', icon: User },
   { name: 'Galerie', href: '#gallery', icon: Image },
-  { name: 'Services', href: '#services', icon: Briefcase },
   { name: 'Contact', href: '#contact', icon: Mail },
 ]
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [clickCount, setClickCount] = useState(0)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     setMounted(true)
@@ -27,6 +29,17 @@ export function Navigation() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Gestion du double-clic sur le logo pour accéder au CMS
+  const handleLogoClick = () => {
+    setClickCount(prev => prev + 1)
+    setTimeout(() => {
+      if (clickCount + 1 === 2) {
+        router.push('/cms-studio')
+      }
+      setClickCount(0)
+    }, 300)
+  }
 
   if (!mounted) return null
 
@@ -44,14 +57,16 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <motion.div 
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleLogoClick}
+            title="Double-cliquez pour accéder au CMS"
           >
             <div className="p-2 rounded-lg gradient-primary">
               <Camera className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-serif font-semibold gradient-rainbow bg-clip-text text-transparent">
+            <span className="text-xl font-serif font-semibold gradient-text-rainbow">
               Portfolio
             </span>
           </motion.div>

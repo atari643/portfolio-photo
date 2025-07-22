@@ -62,7 +62,7 @@ export function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold mb-6"
         >
-          <span className="block gradient-rainbow bg-clip-text text-transparent">
+          <span className="block gradient-text-rainbow">
             Photographe
           </span>
           <span className="block text-neutral-800 dark:text-neutral-200">

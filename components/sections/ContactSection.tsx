@@ -58,7 +58,7 @@ export function ContactSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold mb-6">
-            <span className="gradient-rainbow bg-clip-text text-transparent">
+            <span className="gradient-text-rainbow">
               Contactez-moi
             </span>
           </h2>

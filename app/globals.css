@@ -45,6 +45,44 @@ body {
   background: var(--gradient-rainbow);
 }
 
+/* Text gradient utilities - Fix pour les gradients de texte */
+.bg-clip-text {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+.text-transparent {
+  color: transparent !important;
+}
+
+/* Classes combinées pour les gradients de texte */
+.gradient-text-primary {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+.gradient-text-secondary {
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+.gradient-text-rainbow {
+  background: var(--gradient-rainbow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
 .shadow-soft {
   box-shadow: var(--shadow-soft);
 }

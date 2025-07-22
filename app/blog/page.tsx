@@ -84,7 +84,7 @@ export default function BlogPage() {
       <section className="py-20 bg-gradient-to-br from-neutral-100 to-neutral-50 dark:from-neutral-800 dark:to-neutral-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold mb-6">
-            <span className="gradient-rainbow bg-clip-text text-transparent">
+            <span className="gradient-text-rainbow">
               Blog Photo
             </span>
           </h1>

@@ -14,8 +14,8 @@ export default function AdminLayout({
         <header className="bg-white dark:bg-neutral-800 shadow-soft border-b border-neutral-200 dark:border-neutral-700">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
-              <h1 className="text-2xl font-serif font-bold gradient-rainbow bg-clip-text text-transparent">
-                CMS Studio - Administration
+                            <h1 className="text-2xl font-serif font-bold gradient-text-rainbow">
+                CMS Portfolio
               </h1>
               <div className="flex items-center space-x-4">
                 <span className="text-sm text-neutral-600 dark:text-neutral-400">

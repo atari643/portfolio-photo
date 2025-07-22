@@ -1,0 +1,46 @@
+[
+  {
+    "id": "1",
+    "name": "Mariage",
+    "description": "Photos de mariage et céremonies",
+    "slug": "mariage",
+    "color": "#FF6B6B",
+    "icon": "💒",
+    "order": 0,
+    "createdAt": "2025-07-22T09:03:48.230Z",
+    "photoCount": 0
+  },
+  {
+    "id": "2",
+    "name": "Portrait",
+    "description": "Portraits individuels et de famille",
+    "slug": "portrait",
+    "color": "#4ECDC4",
+    "icon": "👤",
+    "order": 1,
+    "createdAt": "2025-07-22T09:03:48.230Z",
+    "photoCount": 0
+  },
+  {
+    "id": "3",
+    "name": "Nature",
+    "description": "Paysages et photographie nature",
+    "slug": "nature",
+    "color": "#45B7D1",
+    "icon": "🌿",
+    "order": 2,
+    "createdAt": "2025-07-22T09:03:48.230Z",
+    "photoCount": 0
+  },
+  {
+    "id": "4",
+    "name": "Architecture",
+    "description": "Bâtiments et structures urbaines",
+    "slug": "architecture",
+    "color": "#F39C12",
+    "icon": "🏛️",
+    "order": 3,
+    "createdAt": "2025-07-22T09:03:48.230Z",
+    "photoCount": 0
+  }
+]

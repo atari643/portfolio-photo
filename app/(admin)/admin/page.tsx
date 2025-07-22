@@ -50,8 +50,8 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold gradient-rainbow bg-clip-text text-transparent">
-                Administration Portfolio
+                            <h1 className="text-3xl font-bold gradient-text-rainbow">
+                Gestion du Portfolio
               </h1>
               <p className="text-slate-600 dark:text-slate-400 mt-1">
                 Gérez votre portfolio en toute simplicité
