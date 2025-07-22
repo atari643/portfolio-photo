@@ -127,7 +127,31 @@ async function updatePhotosMetadata(newFiles: any[]) {
     featured: false,
     published: true,
     uploadedAt: new Date().toISOString(),
-    views: 0
+    views: 0,
+    // Nouvelles métadonnées pour portfolio
+    subtitle: '',
+    location: '',
+    dateTaken: '',
+    camera: '',
+    lens: '',
+    settings: {
+      aperture: '',
+      shutter: '',
+      iso: '',
+      focalLength: ''
+    },
+    client: '',
+    project: '',
+    mood: '',
+    colorPalette: [],
+    technicalNotes: '',
+    seoAlt: '',
+    socialDescription: '',
+    price: null,
+    license: 'personal',
+    keywords: [],
+    rating: null,
+    isPrivate: false
   }))
 
   const updatedData = [...existingData, ...enhancedFiles]
@@ -152,5 +176,119 @@ export async function GET() {
   } catch (error) {
     console.error('Erreur lors de la récupération des photos:', error)
     return NextResponse.json({ photos: [] })
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const { id, ...updateData } = await request.json()
+    
+    if (!id) {
+      return NextResponse.json({
+        success: false,
+        error: 'ID de la photo requis'
+      }, { status: 400 })
+    }
+
+    const metadataPath = join(process.cwd(), 'data', 'photos.json')
+    
+    if (!existsSync(metadataPath)) {
+      return NextResponse.json({
+        success: false,
+        error: 'Aucune photo trouvée'
+      }, { status: 404 })
+    }
+
+    const fs = await import('fs/promises')
+    const data = await fs.readFile(metadataPath, 'utf-8')
+    const photos = JSON.parse(data)
+
+    const photoIndex = photos.findIndex((photo: any) => photo.id === id)
+    
+    if (photoIndex === -1) {
+      return NextResponse.json({
+        success: false,
+        error: 'Photo non trouvée'
+      }, { status: 404 })
+    }
+
+    // Mettre à jour la photo avec les nouvelles données
+    photos[photoIndex] = {
+      ...photos[photoIndex],
+      ...updateData,
+      updatedAt: new Date().toISOString()
+    }
+
+    await fs.writeFile(metadataPath, JSON.stringify(photos, null, 2))
+
+    return NextResponse.json({
+      success: true,
+      photo: photos[photoIndex]
+    })
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Erreur interne du serveur'
+    }, { status: 500 })
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    
+    if (!id) {
+      return NextResponse.json({
+        success: false,
+        error: 'ID de la photo requis'
+      }, { status: 400 })
+    }
+
+    const metadataPath = join(process.cwd(), 'data', 'photos.json')
+    
+    if (!existsSync(metadataPath)) {
+      return NextResponse.json({
+        success: false,
+        error: 'Aucune photo trouvée'
+      }, { status: 404 })
+    }
+
+    const fs = await import('fs/promises')
+    const data = await fs.readFile(metadataPath, 'utf-8')
+    const photos = JSON.parse(data)
+
+    const photoIndex = photos.findIndex((photo: any) => photo.id === id)
+    
+    if (photoIndex === -1) {
+      return NextResponse.json({
+        success: false,
+        error: 'Photo non trouvée'
+      }, { status: 404 })
+    }
+
+    // Supprimer la photo du tableau
+    const deletedPhoto = photos.splice(photoIndex, 1)[0]
+    
+    await fs.writeFile(metadataPath, JSON.stringify(photos, null, 2))
+
+    // Optionnel: supprimer le fichier physique
+    try {
+      await fs.unlink(deletedPhoto.path)
+    } catch (fileError) {
+      console.warn('Erreur lors de la suppression du fichier:', fileError)
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Photo supprimée avec succès'
+    })
+  } catch (error) {
+    console.error('Erreur lors de la suppression:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Erreur interne du serveur'
+    }, { status: 500 })
   }
 }

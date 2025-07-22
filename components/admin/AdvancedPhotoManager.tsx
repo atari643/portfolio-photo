@@ -24,6 +24,7 @@ import {
 } from 'lucide-react'
 import { usePhotos, useCategories } from '@/lib/cms/hooks/useCMS'
 import { PhotoUpload } from './PhotoUpload'
+import { PhotoEditor } from './PhotoEditor'
 
 interface PhotoManagerProps {
   onPhotoSelect?: (photos: string[]) => void
@@ -36,7 +37,7 @@ export function AdvancedPhotoManager({
   multiSelect = false, 
   maxSelection 
 }: PhotoManagerProps) {
-  const { photos, loading, error, uploadPhotos, refetch } = usePhotos()
+  const { photos, loading, error, uploadPhotos, refetch, updatePhoto } = usePhotos()
   const { categories } = useCategories()
   
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -414,6 +415,26 @@ export function AdvancedPhotoManager({
           )}
         </div>
       )}
+
+      {/* Éditeur de photo */}
+      <AnimatePresence>
+        {editingPhoto && (
+          <PhotoEditor
+            photo={editingPhoto}
+            isOpen={true}
+            onClose={() => setEditingPhoto(null)}
+            onSave={async (updatedPhoto) => {
+              try {
+                await updatePhoto(editingPhoto.id, updatedPhoto)
+                await refetch()
+                setEditingPhoto(null)
+              } catch (error) {
+                console.error('Erreur lors de la mise à jour:', error)
+              }
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }

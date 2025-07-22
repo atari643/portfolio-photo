@@ -46,6 +46,48 @@ export function usePhotos() {
     }
   }
 
+  const updatePhoto = async (id: string, updateData: any) => {
+    try {
+      const response = await fetch('/api/cms/photos', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, ...updateData })
+      })
+      
+      const result = await response.json()
+      if (result.success) {
+        await fetchPhotos() // Recharger la liste
+        return result.photo
+      } else {
+        throw new Error(result.error)
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur lors de la mise à jour')
+      throw err
+    }
+  }
+
+  const deletePhoto = async (id: string) => {
+    try {
+      const response = await fetch(`/api/cms/photos?id=${id}`, {
+        method: 'DELETE'
+      })
+      
+      const result = await response.json()
+      if (result.success) {
+        await fetchPhotos() // Recharger la liste
+        return true
+      } else {
+        throw new Error(result.error)
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur lors de la suppression')
+      throw err
+    }
+  }
+
   useEffect(() => {
     fetchPhotos()
   }, [])
@@ -55,6 +97,8 @@ export function usePhotos() {
     loading,
     error,
     uploadPhotos,
+    updatePhoto,
+    deletePhoto,
     refetch: fetchPhotos
   }
 }
