@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { ChevronRight, Eye, Heart, Camera, Filter } from 'lucide-react'
 import Image from 'next/image'
+import { useFeaturedPhotos } from '@/lib/hooks/usePublicPhotos'
 
 interface GalleryItem {
   id: string
@@ -14,67 +15,40 @@ interface GalleryItem {
   description: string
 }
 
-// Photos exemple (remplacez par vos vraies photos)
-const galleryItems: GalleryItem[] = [
-  {
-    id: '1',
-    src: '/api/placeholder/400/600',
-    alt: 'Portrait couple',
-    category: 'Mariage',
-    title: 'Sarah & Thomas',
-    description: 'Un amour rayonnant sous la lumière dorée'
-  },
-  {
-    id: '2',
-    src: '/api/placeholder/600/400',
-    alt: 'Paysage montagne',
-    category: 'Nature',
-    title: 'Alpes Françaises',
-    description: 'Quand la terre touche le ciel'
-  },
-  {
-    id: '3',
-    src: '/api/placeholder/400/500',
-    alt: 'Portrait enfant',
-    category: 'Portrait',
-    title: 'Innocence',
-    description: 'Le sourire qui illumine tout'
-  },
-  {
-    id: '4',
-    src: '/api/placeholder/500/600',
-    alt: 'Mariage cérémonie',
-    category: 'Mariage',
-    title: 'Premier regard',
-    description: 'L\'émotion à l\'état pur'
-  },
-  {
-    id: '5',
-    src: '/api/placeholder/600/500',
-    alt: 'Architecture moderne',
-    category: 'Architecture',
-    title: 'Lignes urbaines',
-    description: 'Géométrie et lumière'
-  },
-  {
-    id: '6',
-    src: '/api/placeholder/400/550',
-    alt: 'Portrait femme',
-    category: 'Portrait',
-    title: 'Élégance',
-    description: 'La beauté dans sa simplicité'
-  }
-]
-
-const categories = ['Tous', 'Mariage', 'Portrait', 'Nature', 'Architecture']
-
 export function GalleryPreview() {
+  const { photos: featuredPhotos, loading } = useFeaturedPhotos(6) // Limite à 6 photos vedettes
   const [selectedCategory, setSelectedCategory] = useState('Tous')
+  
+  // Convertir les photos du CMS au format attendu par le composant
+  const galleryItems: GalleryItem[] = featuredPhotos.map(photo => ({
+    id: photo.id,
+    src: photo.url,
+    alt: photo.alt || photo.title,
+    category: photo.category,
+    title: photo.title,
+    description: photo.description
+  }))
+
+  // Extraire les catégories uniques des photos
+  const categories = ['Tous', ...Array.from(new Set(featuredPhotos.map(photo => photo.category)))]
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
 
   const filteredItems = selectedCategory === 'Tous' 
     ? galleryItems 
     : galleryItems.filter(item => item.category === selectedCategory)
+
+  if (loading) {
+    return (
+      <section id="gallery" className="py-20 bg-neutral-50 dark:bg-neutral-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-neutral-600 dark:text-neutral-400">Chargement de la galerie...</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="gallery" className="py-20 bg-neutral-50 dark:bg-neutral-900">

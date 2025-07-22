@@ -72,39 +72,79 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    // Pour la démo, retourner des photos exemples
-    const demoPhotos = [
-      {
-        id: '1',
-        filename: 'demo-1.jpg',
-        originalName: 'Portrait_Studio.jpg',
-        size: 2048000,
-        type: 'image/jpeg',
-        url: '/api/placeholder/400/600',
-        uploadedAt: new Date(Date.now() - 86400000).toISOString(),
-        alt: 'Portrait en studio',
-        description: 'Portrait professionnel en studio avec éclairage naturel',
-        tags: ['portrait', 'studio', 'professionnel'],
-        category: 'portraits'
-      },
-      {
-        id: '2',
-        filename: 'demo-2.jpg',
-        originalName: 'Paysage_Montagne.jpg',
-        size: 3072000,
-        type: 'image/jpeg',
-        url: '/api/placeholder/600/400',
-        uploadedAt: new Date(Date.now() - 172800000).toISOString(),
-        alt: 'Paysage de montagne',
-        description: 'Vue panoramique des montagnes au coucher du soleil',
-        tags: ['paysage', 'montagne', 'coucher de soleil'],
-        category: 'paysages'
-      }
-    ]
+    const metadataPath = join(process.cwd(), 'data', 'photos.json')
+    
+    if (!existsSync(metadataPath)) {
+      // Si pas de fichier, retourner des photos de démo
+      const demoPhotos = [
+        {
+          id: '1',
+          title: 'Portrait Studio',
+          description: 'Portrait professionnel en studio avec éclairage naturel',
+          url: '/api/placeholder/400/600',
+          category: 'portraits',
+          tags: ['portrait', 'studio', 'professionnel'],
+          featured: true,
+          published: true,
+          alt: 'Portrait en studio',
+          views: 45
+        },
+        {
+          id: '2',
+          title: 'Paysage Montagne',
+          description: 'Vue panoramique des montagnes au coucher du soleil',
+          url: '/api/placeholder/600/400',
+          category: 'paysages',
+          tags: ['paysage', 'montagne', 'coucher de soleil'],
+          featured: true,
+          published: true,
+          alt: 'Paysage de montagne',
+          views: 73
+        },
+        {
+          id: '3',
+          title: 'Portrait Couple',
+          description: 'Séance photo de couple dans la nature',
+          url: '/api/placeholder/500/600',
+          category: 'portraits',
+          tags: ['portrait', 'couple', 'nature'],
+          featured: false,
+          published: true,
+          alt: 'Portrait de couple',
+          views: 28
+        }
+      ]
+
+      return NextResponse.json({
+        photos: demoPhotos,
+        total: demoPhotos.length
+      })
+    }
+
+    const fs = await import('fs/promises')
+    const data = await fs.readFile(metadataPath, 'utf-8')
+    const allPhotos = JSON.parse(data)
+
+    // Filtrer seulement les photos publiées
+    const publishedPhotos = allPhotos.filter((photo: any) => photo.published !== false)
+
+    // Formater les données pour l'API publique
+    const publicPhotos = publishedPhotos.map((photo: any) => ({
+      id: photo.id,
+      title: photo.title || photo.filename || 'Sans titre',
+      description: photo.description || '',
+      url: photo.url,
+      thumbnail: photo.thumbnail || photo.url,
+      category: photo.category || 'general',
+      tags: photo.tags || [],
+      featured: photo.featured || false,
+      alt: photo.alt || photo.title || photo.filename || '',
+      views: photo.views || 0
+    }))
 
     return NextResponse.json({
-      photos: demoPhotos,
-      total: demoPhotos.length
+      photos: publicPhotos,
+      total: publicPhotos.length
     })
 
   } catch (error) {

@@ -9,6 +9,7 @@ import 'yet-another-react-lightbox/plugins/thumbnails.css'
 import { Eye, Heart, Download, Share2, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { OptimizedImage } from '../ui/OptimizedImage'
+import { usePublicPhotos } from '@/lib/hooks/usePublicPhotos'
 
 interface PhotoItem {
   id: string
