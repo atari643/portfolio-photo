@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Upload, 
@@ -50,6 +50,11 @@ export function AdvancedPhotoManager({
   const [editingPhoto, setEditingPhoto] = useState<any>(null)
   
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Debug log
+  useEffect(() => {
+    console.log('editingPhoto changed:', editingPhoto)
+  }, [editingPhoto])
 
   // Filtrage et tri des photos
   const filteredAndSortedPhotos = photos
@@ -488,12 +493,23 @@ function PhotoCard({ photo, viewMode, isSelected, onSelect, onEdit, multiSelect 
         
         <div className="flex items-center space-x-2">
           <button
-            onClick={onEdit}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              console.log('Bouton édition cliqué pour photo:', photo.id)
+              onEdit()
+            }}
+            className="p-2 hover:bg-slate-100 rounded-lg transition-colors relative z-10"
           >
             <Edit3 className="h-4 w-4 text-slate-600" />
           </button>
-          <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+          <button 
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
+            className="p-2 hover:bg-slate-100 rounded-lg transition-colors relative z-10"
+          >
             <Eye className="h-4 w-4 text-slate-600" />
           </button>
         </div>
@@ -517,12 +533,16 @@ function PhotoCard({ photo, viewMode, isSelected, onSelect, onEdit, multiSelect 
       />
       
       {/* Overlay avec actions */}
-      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
-        <div className="opacity-0 group-hover:opacity-100 flex items-center space-x-2 transition-opacity duration-300">
+      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center z-10">
+        <div className="opacity-0 group-hover:opacity-100 flex items-center space-x-2 transition-opacity duration-300 z-20">
           {multiSelect && (
             <button
-              onClick={onSelect}
-              className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onSelect()
+              }}
+              className={`w-8 h-8 rounded-full border-2 flex items-center justify-center relative z-30 ${
                 isSelected ? 'bg-blue-500 border-blue-500' : 'bg-white border-white'
               }`}
             >
@@ -530,12 +550,23 @@ function PhotoCard({ photo, viewMode, isSelected, onSelect, onEdit, multiSelect 
             </button>
           )}
           <button
-            onClick={onEdit}
-            className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              console.log('Bouton édition cliqué pour photo:', photo.id)
+              onEdit()
+            }}
+            className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors relative z-30 shadow-lg"
           >
             <Edit3 className="h-4 w-4 text-slate-600" />
           </button>
-          <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors">
+          <button 
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
+            className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors relative z-30 shadow-lg"
+          >
             <Eye className="h-4 w-4 text-slate-600" />
           </button>
         </div>
